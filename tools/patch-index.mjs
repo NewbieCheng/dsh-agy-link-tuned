@@ -11,6 +11,11 @@ if (!target) {
 let src = fs.readFileSync(target, "utf8");
 let applied = 0;
 const swap = (from, to, label) => {
+  if (src.includes(to)) {
+    console.error("already applied, skip: " + label);
+    applied++;
+    return;
+  }
   if (!src.includes(from)) {
     console.error("SKIP (anchor moved, edit by hand): " + label);
     return;
@@ -45,6 +50,21 @@ swap(
   "status field"
 );
 
+// 4. /plugins/agy-link/models-refresh: force live Antigravity discovery now
+swap(
+  '\t\treg({\n\t\t\tkind: "exact",\n\t\t\tpath: "/plugins/agy-link/config",',
+  '\t\treg({\n\t\t\tkind: "exact",\n\t\t\tpath: "/plugins/agy-link/models-refresh",\n' +
+    '\t\t\thandler: (req, res) => {\n\t\t\t\t(async () => {\n' +
+    '\t\t\t\t\tif (methodOf(req) !== "POST") {\n\t\t\t\t\t\tsendJson(res, 405, { error: "POST only" });\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n' +
+    '\t\t\t\t\ttry {\n\t\t\t\t\t\tconst activeId = pool.getActiveAccountId("google") ?? pool.getPoolData().primaryAccountId;\n' +
+    '\t\t\t\t\t\tconst cat = await catalog.forceRefreshAndNotify(activeId);\n' +
+    '\t\t\t\t\t\tsendJson(res, 200, { ok: true, source: cat.source, count: cat.models.length, lastError: cat.lastError ?? null });\n' +
+    '\t\t\t\t\t} catch (err) {\n\t\t\t\t\t\tsendJson(res, 200, { ok: false, error: err instanceof Error ? err.message : String(err) });\n' +
+    '\t\t\t\t\t}\n\t\t\t\t})();\n\t\t\t}\n\t\t});\n' +
+    '\t\treg({\n\t\t\tkind: "exact",\n\t\t\tpath: "/plugins/agy-link/config",',
+  "models-refresh endpoint"
+);
+
 fs.writeFileSync(target, src);
-console.log(`patched ${applied}/4 edits -> ${target}`);
-if (applied < 4) process.exit(2);
+console.log(`patched ${applied}/5 edits -> ${target}`);
+if (applied < 5) process.exit(2);

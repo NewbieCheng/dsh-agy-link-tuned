@@ -220,6 +220,7 @@ window.__ModuleLoader__.load({
 			"pool.sequential": "顺次耗尽",
 			"pool.roundRobin": "轮询均衡",
 			"models.label": "模型显示：",
+			"models.refresh": "刷新目录",
 			"context.label": "上下文长度",
 			"context.hint": "对话上下文预算（Token），默认 372000，超出后自动压缩长上下文。",
 			"models.empty": "模型目录还没有可用模型，发一次对话或点“刷新额度”后再来管理",
@@ -403,6 +404,7 @@ window.__ModuleLoader__.load({
 			"pool.sequential": "Use sequentially",
 			"pool.roundRobin": "Round-robin",
 			"models.label": "Model visibility:",
+			"models.refresh": "Refresh",
 			"context.label": "Context length",
 			"context.hint": "Conversation context budget (tokens), default 372000. Long context auto-compacts past the budget.",
 			"models.empty": "No models in the catalog yet — send a message or click \"Refresh quota\", then come back to manage them",
@@ -586,6 +588,7 @@ window.__ModuleLoader__.load({
 			"pool.sequential": "Usar em sequência",
 			"pool.roundRobin": "Rodízio",
 			"models.label": "Visibilidade dos modelos:",
+			"models.refresh": "Atualizar",
 			"models.empty": "Ainda não há modelos no catálogo — envie uma mensagem ou clique em \"Atualizar cota\" e volte para gerenciá-los",
 			"models.hint": "Clique para mostrar/ocultar. Modelos ocultos não aparecem no seletor de modelos; as sessões em andamento não são afetadas.",
 			"header.refreshQuota": "Atualizar cota",
@@ -767,6 +770,7 @@ window.__ModuleLoader__.load({
 			"pool.sequential": "Usar en secuencia",
 			"pool.roundRobin": "Turno rotativo",
 			"models.label": "Visibilidad de modelos:",
+			"models.refresh": "Actualizar",
 			"models.empty": "Aún no hay modelos en el catálogo: envía un mensaje o haz clic en \"Actualizar cuota\" y vuelve para gestionarlos",
 			"models.hint": "Haz clic para mostrar/ocultar. Los modelos ocultos no aparecen en el selector de modelos; las sesiones en curso no se ven afectadas.",
 			"header.refreshQuota": "Actualizar cuota",
@@ -6646,6 +6650,12 @@ body[data-ds-dark-theme] select.agy-select { color-scheme: dark; }
 					setLoadingAction(null);
 				};
 				const hiddenPendingRef = useRef(null);
+				const refreshModels = async () => {
+					setLoadingAction("models:refresh");
+					await postJson("/plugins/agy-link/models-refresh", {});
+					await refresh();
+					setLoadingAction(null);
+				};
 				const toggleModelHidden = async (id, hide) => {
 					const next = new Set(hiddenPendingRef.current ?? status?.hiddenModels ?? []);
 					if (hide) next.add(id);
@@ -7583,7 +7593,7 @@ body[data-ds-dark-theme] select.agy-select { color-scheme: dark; }
 					display: "flex",
 					flexDirection: "column",
 					gap: "6px"
-				} }, h("button", {
+				} }, h("div", { style: { display: "flex", alignItems: "center", gap: "8px" } }, h("button", {
 					type: "button",
 					"aria-expanded": modelsOpen,
 					onClick: () => setModelsOpen((v) => !v),
@@ -7591,7 +7601,7 @@ body[data-ds-dark-theme] select.agy-select { color-scheme: dark; }
 						display: "flex",
 						alignItems: "center",
 						justifyContent: "space-between",
-						width: "100%",
+						flex: "1 1 auto",
 						padding: "2px 0",
 						background: "transparent",
 						border: "0",
@@ -7642,7 +7652,13 @@ body[data-ds-dark-theme] select.agy-select { color-scheme: dark; }
 					}), h("span", { style: { color: "var(--agy-text-tertiary)", fontSize: "11.5px" } }, "Token")),
 				h("span", { style: S.muted }, t("context.hint"))), h("span", null, `${t("models.label")} · ${visibleModelCount}/${catalogModels.length}`), h("span", {
 					style: { color: "var(--agy-text-tertiary)", fontSize: "11px" }
-				}, modelsOpen ? "▾" : "▸")), modelsOpen && catalogModels.length === 0 ? h("span", { style: S.muted }, t("models.empty")) : h("div", { style: {
+				}, modelsOpen ? "▾" : "▸")), h("button", {
+						type: "button",
+						title: t("models.refresh"),
+						disabled: loadingAction === "models:refresh",
+						onClick: () => void refreshModels(),
+						style: { flex: "none", height: "24px", padding: "0 10px", borderRadius: "6px", border: "1px solid var(--agy-border-btn)", background: "var(--agy-bg-btn)", color: "var(--agy-text-btn)", fontSize: "11.5px", cursor: "pointer" }
+					}, loadingAction === "models:refresh" ? "..." : t("models.refresh"))), modelsOpen && catalogModels.length === 0 ? h("span", { style: S.muted }, t("models.empty")) : h("div", { style: {
 					display: modelsOpen ? "flex" : "none",
 					flexWrap: "wrap",
 					gap: "6px"
