@@ -220,6 +220,8 @@ window.__ModuleLoader__.load({
 			"pool.sequential": "顺次耗尽",
 			"pool.roundRobin": "轮询均衡",
 			"models.label": "模型显示：",
+			"context.label": "上下文长度",
+			"context.hint": "对话上下文预算（Token），默认 372000，超出后自动压缩长上下文。",
 			"models.empty": "模型目录还没有可用模型，发一次对话或点“刷新额度”后再来管理",
 			"models.hint": "点击切换显示/隐藏；关闭的模型不在模型选择器中列出，进行中的会话不受影响。",
 			"header.refreshQuota": "刷新额度",
@@ -401,6 +403,8 @@ window.__ModuleLoader__.load({
 			"pool.sequential": "Use sequentially",
 			"pool.roundRobin": "Round-robin",
 			"models.label": "Model visibility:",
+			"context.label": "Context length",
+			"context.hint": "Conversation context budget (tokens), default 372000. Long context auto-compacts past the budget.",
 			"models.empty": "No models in the catalog yet — send a message or click \"Refresh quota\", then come back to manage them",
 			"models.hint": "Click to show/hide. Hidden models are not listed in the model picker; ongoing sessions are unaffected.",
 			"header.refreshQuota": "Refresh quota",
@@ -6791,6 +6795,7 @@ body[data-ds-dark-theme] select.agy-select { color-scheme: dark; }
 				const pool = status?.pool;
 				const catalogModels = status?.catalogModels ?? [];
 				const hiddenModelSet = new Set(status?.hiddenModels ?? []);
+				const visibleModelCount = catalogModels.filter((m) => !hiddenModelSet.has(m.id)).length;
 				const accounts = pool?.accounts ?? [];
 				const isAuthed = authPhase === "ok" || accounts.length > 0;
 				const isBusy = loadingAction !== null;
@@ -7596,7 +7601,46 @@ body[data-ds-dark-theme] select.agy-select { color-scheme: dark; }
 						fontSize: "12.5px",
 						fontFamily: "inherit"
 					}
-				}, h("span", null, `${t("models.label")} · ${catalogModels.length - hiddenModelSet.size}/${catalogModels.length}`), h("span", {
+				}, h("div", { style: {
+						display: "flex",
+						flexDirection: "column",
+						gap: "6px"
+					} }, h("span", { style: {
+						color: "var(--agy-text-primary)",
+						fontWeight: 600,
+						fontSize: "12.5px"
+					} }, t("context.label")), h("div", { style: {
+						display: "flex",
+						alignItems: "center",
+						gap: "8px"
+					} }, h("input", {
+						type: "number",
+						min: 1000,
+						step: 1000,
+						key: String(status?.contextWindowDefault ?? 372000),
+						defaultValue: status?.contextWindowDefault ?? 372000,
+						disabled: loadingAction === "config:contextWindowDefault",
+						style: {
+							width: "140px",
+							height: "28px",
+							boxSizing: "border-box",
+							padding: "0 8px",
+							border: "1px solid var(--agy-border-input)",
+							borderRadius: "6px",
+							background: "var(--agy-bg-input)",
+							color: "var(--agy-text-primary)",
+							fontSize: "12px"
+						},
+						"aria-label": t("context.label"),
+						onBlur: (e) => {
+							const n = Math.floor(Number(e.currentTarget.value));
+							if (Number.isInteger(n) && n > 0 && n !== status?.contextWindowDefault) void setCfg("contextWindowDefault", n);
+						},
+						onKeyDown: (e) => {
+							if (e.key === "Enter") e.currentTarget.blur();
+						}
+					}), h("span", { style: { color: "var(--agy-text-tertiary)", fontSize: "11.5px" } }, "Token")),
+				h("span", { style: S.muted }, t("context.hint"))), h("span", null, `${t("models.label")} · ${visibleModelCount}/${catalogModels.length}`), h("span", {
 					style: { color: "var(--agy-text-tertiary)", fontSize: "11px" }
 				}, modelsOpen ? "▾" : "▸")), modelsOpen && catalogModels.length === 0 ? h("span", { style: S.muted }, t("models.empty")) : h("div", { style: {
 					display: modelsOpen ? "flex" : "none",
