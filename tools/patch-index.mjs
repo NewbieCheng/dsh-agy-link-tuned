@@ -10,8 +10,8 @@ if (!target) {
 }
 let src = fs.readFileSync(target, "utf8");
 let applied = 0;
-const swap = (from, to, label) => {
-  if (src.includes(to)) {
+const swap = (from, to, label, marker) => {
+  if (src.includes(marker ?? to)) {
     console.error("already applied, skip: " + label);
     applied++;
     return;
@@ -40,7 +40,8 @@ swap(
 swap(
   'if (key === "warmupModels" && (!Array.isArray(body.value) || !body.value.every((x) => typeof x === "string"))) {',
   'if (key === "contextWindowDefault" && (!Number.isInteger(body.value) || body.value <= 0)) {\n\t\t\t\t\t\tsendJson(res, 400, { error: "contextWindowDefault must be a positive integer (tokens)" });\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\t\t\t\t\tif (key === "warmupModels" && (!Array.isArray(body.value) || !body.value.every((x) => typeof x === "string"))) {',
-  "numeric guard"
+  "numeric guard",
+  "contextWindowDefault must be a positive integer"
 );
 
 // 3. expose the current value in /status
@@ -62,7 +63,8 @@ swap(
     '\t\t\t\t\t} catch (err) {\n\t\t\t\t\t\tsendJson(res, 200, { ok: false, error: err instanceof Error ? err.message : String(err) });\n' +
     '\t\t\t\t\t}\n\t\t\t\t})();\n\t\t\t}\n\t\t});\n' +
     '\t\treg({\n\t\t\tkind: "exact",\n\t\t\tpath: "/plugins/agy-link/config",',
-  "models-refresh endpoint"
+  "models-refresh endpoint",
+  'path: "/plugins/agy-link/models-refresh"'
 );
 
 fs.writeFileSync(target, src);
