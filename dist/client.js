@@ -5545,6 +5545,7 @@ body.dark .agy-tsl-card,
 			return [
 				`[${NAV_ICON_MARKER}] > svg { display: none !important; }`,
 				`[${NAV_ICON_MARKER}] > [class*="icon"] > svg { display: none !important; }`,
+				`[${NAV_ICON_MARKER}] svg { display: none !important; }`,
 				`[${NAV_ICON_MARKER}]::before {`,
 				`  content: '';`,
 				`  flex: none;`,
