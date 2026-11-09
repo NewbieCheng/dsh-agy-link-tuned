@@ -6620,6 +6620,7 @@ body[data-ds-dark-theme] select.agy-select { color-scheme: dark; }
 				const [loadingAction, setLoadingAction] = useState(null);
 				const [toast, setToast] = useState(null);
 				const [expandedModels, setExpandedModels] = useState({});
+				const [modelsOpen, setModelsOpen] = useState(false);
 				const [addProxyInput, setAddProxyInput] = useState("");
 				const [optimisticActiveId, setOptimisticActiveId] = useState(null);
 				const [, setTimeTick] = useState(0);
@@ -7681,12 +7682,28 @@ body[data-ds-dark-theme] select.agy-select { color-scheme: dark; }
 					display: "flex",
 					flexDirection: "column",
 					gap: "6px"
-				} }, h("span", { style: {
-					color: "var(--agy-text-primary)",
-					fontWeight: 600,
-					fontSize: "12.5px"
-				} }, t("models.label")), catalogModels.length === 0 ? h("span", { style: S.muted }, t("models.empty")) : h("div", { style: {
-					display: "flex",
+				} }, h("button", {
+					type: "button",
+					"aria-expanded": modelsOpen,
+					onClick: () => setModelsOpen((v) => !v),
+					style: {
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "space-between",
+						width: "100%",
+						padding: "2px 0",
+						background: "transparent",
+						border: "0",
+						cursor: "pointer",
+						color: "var(--agy-text-primary)",
+						fontWeight: 600,
+						fontSize: "12.5px",
+						fontFamily: "inherit"
+					}
+				}, h("span", null, `${t("models.label")} · ${catalogModels.length - hiddenModelSet.size}/${catalogModels.length}`), h("span", {
+					style: { color: "var(--agy-text-tertiary)", fontSize: "11px" }
+				}, modelsOpen ? "▾" : "▸")), modelsOpen && catalogModels.length === 0 ? h("span", { style: S.muted }, t("models.empty")) : h("div", { style: {
+					display: modelsOpen ? "flex" : "none",
 					flexWrap: "wrap",
 					gap: "6px"
 				} }, catalogModels.map((m) => {
@@ -7703,7 +7720,7 @@ body[data-ds-dark-theme] select.agy-select { color-scheme: dark; }
 						} : S.segBtnActive,
 						onClick: () => void toggleModelHidden(m.id, !isHidden)
 					}, m.name);
-				})), h("span", { style: S.muted }, t("models.hint"))))));
+				})), h("span", { style: { ...S.muted, display: modelsOpen ? "block" : "none" } }, t("models.hint"))))));
 			};
 			/** Modal dialog container rendered into document.body */
 			const AgyModalDialog = () => {
@@ -7879,15 +7896,6 @@ body[data-ds-dark-theme] select.agy-select { color-scheme: dark; }
 				} }), buttonLabel);
 				return h("div", { style: { display: "inline-block" } }, badge, isPrimaryHost && isModalOpen ? portalToBody(h(AgyModalDialog, null)) : null);
 			};
-			ctx.slots.inject("conversation.session.header.actions", () => {
-				return ctx.slots.register({
-					name: "conversation.session.header.actions",
-					id: "agy-link-status",
-					order: 10,
-					label: () => locale.bind(NS)("section.label"),
-					locale: NS
-				}, AgySessionStatus);
-			});
 			ctx.slots.inject("settings.section", () => {
 				return ctx.slots.register({
 					name: "settings.section",
