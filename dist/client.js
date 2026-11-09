@@ -5402,126 +5402,20 @@ body.dark .agy-tsl-card,
 		* Antigravity logo mark: 3D orbit sphere with specular highlight, luminous front/back rings
 		* and twin satellite nodes matching the official assets/icon.svg.
 		*/
-		function agyIcon(size = 16) {
-			const uid = "agy-logo";
-			return h("svg", {
-				viewBox: "0 0 36 36",
+				function agyIcon(size = 16) {
+			return h("img", {
+				src: agyNavLogoUrl(),
 				width: size,
 				height: size,
-				fill: "none",
+				alt: "",
 				"aria-hidden": true,
+				draggable: false,
 				style: {
 					display: "inline-block",
 					verticalAlign: "-2.5px",
 					flexShrink: 0
 				}
-			}, h("defs", null, h("linearGradient", {
-				id: `${uid}-orb`,
-				x1: "12",
-				y1: "11",
-				x2: "25",
-				y2: "25",
-				gradientUnits: "userSpaceOnUse"
-			}, h("stop", {
-				offset: "0%",
-				"stop-color": "#38BDF8"
-			}), h("stop", {
-				offset: "45%",
-				"stop-color": "#6366F1"
-			}), h("stop", {
-				offset: "85%",
-				"stop-color": "#9333EA"
-			}), h("stop", {
-				offset: "100%",
-				"stop-color": "#C026D3"
-			})), h("linearGradient", {
-				id: `${uid}-rf`,
-				x1: "6",
-				y1: "24",
-				x2: "31",
-				y2: "12",
-				gradientUnits: "userSpaceOnUse"
-			}, h("stop", {
-				offset: "0%",
-				"stop-color": "#00D2FF"
-			}), h("stop", {
-				offset: "40%",
-				"stop-color": "#38BDF8"
-			}), h("stop", {
-				offset: "70%",
-				"stop-color": "#818CF8"
-			}), h("stop", {
-				offset: "100%",
-				"stop-color": "#F43F5E"
-			})), h("linearGradient", {
-				id: `${uid}-rb`,
-				x1: "7",
-				y1: "12",
-				x2: "29",
-				y2: "24",
-				gradientUnits: "userSpaceOnUse"
-			}, h("stop", {
-				offset: "0%",
-				"stop-color": "#38BDF8",
-				"stop-opacity": "0.4"
-			}), h("stop", {
-				offset: "100%",
-				"stop-color": "#A855F7",
-				"stop-opacity": "0.4"
-			})), h("linearGradient", {
-				id: `${uid}-hl`,
-				x1: "14",
-				y1: "12",
-				x2: "19",
-				y2: "18",
-				gradientUnits: "userSpaceOnUse"
-			}, h("stop", {
-				offset: "0%",
-				"stop-color": "#FFFFFF",
-				"stop-opacity": "0.65"
-			}), h("stop", {
-				offset: "100%",
-				"stop-color": "#FFFFFF",
-				"stop-opacity": "0.05"
-			}))), h("path", {
-				d: "M 6.8 14.2 C 8.2 9.6 17.8 7.2 26.2 10.8 C 28.0 11.6 29.3 12.6 30.2 13.8",
-				stroke: `url(#${uid}-rb)`,
-				"stroke-width": "2.4",
-				"stroke-linecap": "round"
-			}), h("circle", {
-				cx: 18,
-				cy: 18,
-				r: 7.5,
-				fill: `url(#${uid}-orb)`
-			}), h("path", {
-				d: "M 13.2 15.2 A 5.5 5.5 0 0 1 21.0 13.0 A 6.2 6.2 0 0 0 14.0 18.0 Z",
-				fill: `url(#${uid}-hl)`
-			}), h("path", {
-				d: "M 30.2 13.8 C 31.4 18.2 21.8 26.2 12.8 24.2 C 9.4 23.4 7.4 21.8 6.6 19.6",
-				stroke: `url(#${uid}-rf)`,
-				"stroke-width": "2.6",
-				"stroke-linecap": "round"
-			}), h("circle", {
-				cx: 8.2,
-				cy: 18.2,
-				r: 2.2,
-				fill: "#00D2FF"
-			}), h("circle", {
-				cx: 8.2,
-				cy: 18.2,
-				r: 1,
-				fill: "#FFFFFF"
-			}), h("circle", {
-				cx: 28.4,
-				cy: 20.4,
-				r: 1.8,
-				fill: "#F43F5E"
-			}), h("circle", {
-				cx: 28.4,
-				cy: 20.4,
-				r: .8,
-				fill: "#FFFFFF"
-			}));
+			});
 		}
 		/**
 		* Settings dialog navigation icon replacement for Antigravity.
@@ -5531,7 +5425,7 @@ body.dark .agy-tsl-card,
 		*/
 		const NAV_ICON_MARKER = "data-dsh-agy-nav-icon";
 		const NAV_ROW_SELECTOR = "[role=\"dialog\"] nav button, [role=\"dialog\"] nav a, [role=\"dialog\"] aside button, .dsh-settings-nav button";
-		const AGY_NAV_LOGO_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\" fill=\"none\"><defs><linearGradient id=\"an-orb\" x1=\"12\" y1=\"11\" x2=\"25\" y2=\"25\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0%\" stop-color=\"#38BDF8\"/><stop offset=\"45%\" stop-color=\"#6366F1\"/><stop offset=\"85%\" stop-color=\"#9333EA\"/><stop offset=\"100%\" stop-color=\"#C026D3\"/></linearGradient><linearGradient id=\"an-rf\" x1=\"6\" y1=\"24\" x2=\"31\" y2=\"12\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0%\" stop-color=\"#00D2FF\"/><stop offset=\"40%\" stop-color=\"#38BDF8\"/><stop offset=\"70%\" stop-color=\"#818CF8\"/><stop offset=\"100%\" stop-color=\"#F43F5E\"/></linearGradient><linearGradient id=\"an-rb\" x1=\"7\" y1=\"12\" x2=\"29\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0%\" stop-color=\"#38BDF8\" stop-opacity=\"0.4\"/><stop offset=\"100%\" stop-color=\"#A855F7\" stop-opacity=\"0.4\"/></linearGradient><linearGradient id=\"an-hl\" x1=\"14\" y1=\"12\" x2=\"19\" y2=\"18\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0%\" stop-color=\"#FFFFFF\" stop-opacity=\"0.65\"/><stop offset=\"100%\" stop-color=\"#FFFFFF\" stop-opacity=\"0.05\"/></linearGradient></defs><path d=\"M 6.8 14.2 C 8.2 9.6 17.8 7.2 26.2 10.8 C 28.0 11.6 29.3 12.6 30.2 13.8\" stroke=\"url(#an-rb)\" stroke-width=\"2.4\" stroke-linecap=\"round\"/><circle cx=\"18\" cy=\"18\" r=\"7.5\" fill=\"url(#an-orb)\"/><path d=\"M 13.2 15.2 A 5.5 5.5 0 0 1 21.0 13.0 A 6.2 6.2 0 0 0 14.0 18.0 Z\" fill=\"url(#an-hl)\"/><path d=\"M 30.2 13.8 C 31.4 18.2 21.8 26.2 12.8 24.2 C 9.4 23.4 7.4 21.8 6.6 19.6\" stroke=\"url(#an-rf)\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><circle cx=\"8.2\" cy=\"18.2\" r=\"2.2\" fill=\"#00D2FF\"/><circle cx=\"8.2\" cy=\"18.2\" r=\"1.0\" fill=\"#FFFFFF\"/><circle cx=\"28.4\" cy=\"20.4\" r=\"1.8\" fill=\"#F43F5E\"/><circle cx=\"28.4\" cy=\"20.4\" r=\"0.8\" fill=\"#FFFFFF\"/></svg>";
+		const AGY_NAV_LOGO_SVG = "<svg width=\"180\" height=\"180\" viewBox=\"0 0 180 180\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M144.248 149.062C151.748 154.688 162.998 150.938 152.685 140.625C121.748 110.625 128.31 28.125 89.8727 28.125C51.4352 28.125 57.9977 110.625 27.0602 140.625C15.8102 151.875 27.9977 154.688 35.4977 149.062C64.5602 129.375 62.6852 94.6875 89.8727 94.6875C117.06 94.6875 115.185 129.375 144.248 149.062Z\" fill=\"#3186FF\"/><mask id=\"mask0_6001_409\" style=\"mask-type:alpha\" maskUnits=\"userSpaceOnUse\" x=\"22\" y=\"28\" width=\"136\" height=\"125\"><path d=\"M144.248 149.062C151.748 154.688 162.998 150.938 152.685 140.625C121.748 110.625 128.31 28.125 89.8727 28.125C51.4352 28.125 57.9977 110.625 27.0602 140.625C15.8102 151.875 27.9977 154.688 35.4977 149.062C64.5602 129.375 62.6852 94.6875 89.8727 94.6875C117.06 94.6875 115.185 129.375 144.248 149.062Z\" fill=\"white\"/></mask><g mask=\"url(#mask0_6001_409)\"><g filter=\"url(#filter0_f_6001_409)\"><ellipse cx=\"36.6225\" cy=\"43.0872\" rx=\"36.6225\" ry=\"43.0872\" transform=\"matrix(-0.112784 0.99362 -0.99362 -0.112781 106.557 -26.4847)\" fill=\"#FFE432\"/></g><g filter=\"url(#filter1_f_6001_409)\"><ellipse cx=\"155.163\" cy=\"54.9292\" rx=\"47.4118\" ry=\"48.4541\" transform=\"rotate(76.9243 155.163 54.9292)\" fill=\"#FC413D\"/></g><g filter=\"url(#filter2_f_6001_409)\"><ellipse cx=\"14.6006\" cy=\"65.4425\" rx=\"49.5515\" ry=\"64.192\" transform=\"rotate(74.1257 14.6006 65.4425)\" fill=\"#00B95C\"/></g><g filter=\"url(#filter3_f_6001_409)\"><ellipse cx=\"14.6006\" cy=\"65.4425\" rx=\"49.5515\" ry=\"64.192\" transform=\"rotate(74.1257 14.6006 65.4425)\" fill=\"#00B95C\"/></g><g filter=\"url(#filter4_f_6001_409)\"><ellipse cx=\"18.1226\" cy=\"67.414\" rx=\"48.5679\" ry=\"53.4688\" transform=\"rotate(45.6065 18.1226 67.414)\" fill=\"#00B95C\"/></g><g filter=\"url(#filter5_f_6001_409)\"><ellipse cx=\"121.837\" cy=\"166.945\" rx=\"46.6356\" ry=\"44.9084\" transform=\"rotate(76.9243 121.837 166.945)\" fill=\"#3186FF\"/></g><g filter=\"url(#filter6_f_6001_409)\"><ellipse cx=\"53.9456\" cy=\"56.8997\" rx=\"53.9456\" ry=\"56.8997\" transform=\"matrix(-0.409539 0.912293 -0.912294 -0.409537 162.811 -25.895)\" fill=\"#FBBC04\"/></g><g filter=\"url(#filter7_f_6001_409)\"><path d=\"M4.21557 239.063C-25.3231 227.467 25.1577 132.061 37.7105 100.085C50.2634 68.1097 84.3853 51.5888 113.924 63.1848C143.463 74.7809 178.474 138.65 165.921 170.626C153.368 202.601 33.7543 250.659 4.21557 239.063Z\" fill=\"#3186FF\"/></g><g filter=\"url(#filter8_f_6001_409)\"><path d=\"M183.197 120.315C175.289 129.545 154.652 124.839 137.102 109.803C119.553 94.7668 111.738 75.0955 119.646 65.8656C127.554 56.6357 148.191 61.3423 165.74 76.3782C183.289 91.414 191.105 111.085 183.197 120.315Z\" fill=\"#749BFF\"/></g><g filter=\"url(#filter9_f_6001_409)\"><ellipse cx=\"148.928\" cy=\"36.7252\" rx=\"71.1018\" ry=\"44.199\" transform=\"rotate(34.0763 148.928 36.7252)\" fill=\"#FC413D\"/></g><g filter=\"url(#filter10_f_6001_409)\"><ellipse cx=\"37.848\" cy=\"46.0346\" rx=\"38.1008\" ry=\"22.1575\" transform=\"rotate(112.516 37.848 46.0346)\" fill=\"#FFEE48\"/></g></g><defs><filter id=\"filter0_f_6001_409\" x=\"4.09591\" y=\"-44.1761\" width=\"111.037\" height=\"98.4416\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"><feGaussianBlur stdDeviation=\"6.25234\"/></filter><filter id=\"filter1_f_6001_409\" x=\"46.2974\" y=\"-53.0009\" width=\"217.731\" height=\"215.86\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"><feGaussianBlur stdDeviation=\"30.2268\"/></filter><filter id=\"filter2_f_6001_409\" x=\"-100.018\" y=\"-36.7558\" width=\"229.238\" height=\"204.397\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"><feGaussianBlur stdDeviation=\"25.6957\"/></filter><filter id=\"filter3_f_6001_409\" x=\"-100.018\" y=\"-36.7558\" width=\"229.238\" height=\"204.397\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"><feGaussianBlur stdDeviation=\"25.6957\"/></filter><filter id=\"filter4_f_6001_409\" x=\"-84.3985\" y=\"-35.003\" width=\"205.042\" height=\"204.834\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"><feGaussianBlur stdDeviation=\"25.6957\"/></filter><filter id=\"filter5_f_6001_409\" x=\"27.9915\" y=\"71.5493\" width=\"187.691\" height=\"190.791\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"><feGaussianBlur stdDeviation=\"24.4184\"/></filter><filter id=\"filter6_f_6001_409\" x=\"-11.8808\" y=\"-98.7085\" width=\"201.38\" height=\"197.45\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"><feGaussianBlur stdDeviation=\"22.1301\"/></filter><filter id=\"filter7_f_6001_409\" x=\"-44.4432\" y=\"19.9522\" width=\"252.513\" height=\"260.404\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"><feGaussianBlur stdDeviation=\"19.7631\"/></filter><filter id=\"filter8_f_6001_409\" x=\"81.1915\" y=\"25.7722\" width=\"140.46\" height=\"134.637\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"><feGaussianBlur stdDeviation=\"17.6843\"/></filter><filter id=\"filter9_f_6001_409\" x=\"55.1499\" y=\"-47.2531\" width=\"187.555\" height=\"167.957\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"><feGaussianBlur stdDeviation=\"14.9365\"/></filter><filter id=\"filter10_f_6001_409\" x=\"-24.2633\" y=\"-27.1515\" width=\"124.223\" height=\"146.372\" filterUnits=\"userSpaceOnUse\" color-interpolation-filters=\"sRGB\"><feGaussianBlur stdDeviation=\"18.4865\"/></filter></defs></svg>";
 		function agyNavLogoUrl() {
 			return `data:image/svg+xml,${encodeURIComponent(AGY_NAV_LOGO_SVG)}`;
 		}
@@ -5546,6 +5440,7 @@ body.dark .agy-tsl-card,
 				`[${NAV_ICON_MARKER}] > svg { display: none !important; }`,
 				`[${NAV_ICON_MARKER}] > [class*="icon"] > svg { display: none !important; }`,
 				`[${NAV_ICON_MARKER}] svg { display: none !important; }`,
+				`[${NAV_ICON_MARKER}] > [class*="icon"]:has(> svg) { display: contents !important; }`,
 				`[${NAV_ICON_MARKER}]::before {`,
 				`  content: '';`,
 				`  flex: none;`,
